@@ -1,6 +1,8 @@
 package com.example.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -9,8 +11,8 @@ import javax.persistence.Table;
 public class Member {
 
 	@Id
-	private Integer deptno;
-	private String dname;
-	private String loc;
+	private String id;
+	private String pw;
+	private String name;
 	
 }

@@ -705,3 +705,37 @@
         fname varchar(255),
         primary key (fno)
     ) engine=InnoDB;
+
+    create table tbl_dept (
+       deptno number(10,0) not null,
+        dname varchar2(255 char),
+        loc varchar2(255 char),
+        primary key (deptno)
+    );
+
+    create table tbl_emp (
+       empno number(10,0) not null,
+        comm number(19,2),
+        deptno number(10,0),
+        ename varchar2(255 char),
+        gender varchar2(255 char),
+        hiredate date,
+        job varchar2(255 char),
+        mgr number(10,0),
+        sal number(19,2),
+        primary key (empno)
+    );
+
+    create table tbl_members (
+       deptno number(10,0) not null,
+        dname varchar2(255 char),
+        loc varchar2(255 char),
+        primary key (deptno)
+    );
+
+    create table tbl_profile (
+       fno number(19,0) not null,
+        current2 number(1,0) not null,
+        fname varchar2(255 char),
+        primary key (fno)
+    );

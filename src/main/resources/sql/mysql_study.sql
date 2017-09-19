@@ -21,3 +21,10 @@ insert into tbl_emp
 select comm, deptno, empno, ename, gender, hiredate, job, mgr, sal from emp;
 
 delete from tbl_emp;
+
+insert into tbl_profile
+(fname, curr)
+values
+("user01_profile", 1);
+
+select * from tbl_profile;

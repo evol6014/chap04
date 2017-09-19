@@ -7,17 +7,26 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import lombok.Data;
+import lombok.ToString;
 
 
 @Entity	// JPA에서 엔티티를 관리하기 위해 준다. 테이블을 내가 만들어준다. 이걸로.
 @Table(name="tbl_emp")
 @Data
+@ToString(exclude={"mgr", "dept"})
 public class MyEmp {
 	
 	public enum Gender {
@@ -25,25 +34,35 @@ public class MyEmp {
 	}
 	
 	@Id
+	@TableGenerator(name = "idGen", table = "id_gen", 
+					  pkColumnName = "seq_name", valueColumnName = "nextval", 
+					  allocationSize = 10, initialValue = 7000)
+	@GeneratedValue(strategy=GenerationType.TABLE, generator="idGen")
 	private Integer empno;
 	private String ename;
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	private String job;
-	private Integer mgr;
+	
+//	private Integer mgr;
+	@OneToOne(fetch=FetchType.LAZY)		// mgr을 별도로 조회하기전에는 조회하지 않는다.(fetch=LAZY)
+	@JoinColumn(name="mgr")
+	private MyEmp mgr;
+	
 	@Temporal(TemporalType.DATE)
 	private Date hiredate;
 	private BigDecimal sal;
 	private BigDecimal comm;
-	private Integer deptno;
+	
+//	private Integer deptno;
+	@ManyToOne(fetch=FetchType.LAZY)	// foreign key
+	@JoinColumn(name="deptno")	// 별도테이블을 만드는게 디폴트. 이거말고 조인컬럼을 만듦. 
+	private MyDept dept;			// 이렇게 함으로 MyDept와 연관관계가 생긴다.
 	
 }
-//EMPNO	 	NUMBER(4) 				CONSTRAINT EMP_EMPNO_PK PRIMARY KEY,
-//ENAME 	VARCHAR2(10 CHAR) 	NOT NULL, -- CHAR을 추가함으로써 글자단위로 변경.
-// GENDER	CHAR(1 CHAR)			CONSTRAINT EMP_GENDER_CK CHECK (GENDER IN ('M', 'F')),
-//JOB   	VARCHAR2(9 CHAR), 	-- 글자단위로 변경.
-//MGR  		NUMBER(4),
-//HIREDATE 	DATE,
-//SAL 		NUMBER(7,2),
-//COMM 		NUMBER(7,2),
-//DEPTNO 	NUMBER(2) 				CONSTRAINT EMP_DEPTNO_FK REFERENCES DEPT);
+
+
+
+
+
+
